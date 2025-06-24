@@ -1,47 +1,24 @@
 ### 🧪 **DevOps Intern Assignment: Nginx Reverse Proxy + Docker**
 
-You are expected to set up a simple system where:
+## 🚀 Project Overview
 
-1. **Two Dockerized backend services** (can be dummy services) run on different ports.
-2. An **Nginx reverse proxy** (also in a Docker container) routes:
+This project demonstrates a simple microservices setup using Docker Compose. It features:
 
-   * `/service1` requests to backend service 1
-   * `/service2` requests to backend service 2
-3. All services must be accessible via a single port (e.g., `localhost:8080`).
-
----
-
-### ✅ **Requirements**
-
-1. Use Docker Compose to bring up the entire system.
-2. Each backend service should respond with a JSON payload like:
-
-   ```json
-   {"service": "service1"}
-   ```
-3. The Nginx config should support:
-
-   * Routing based on URL path prefix (`/service1`, `/service2`)
-   * Logging incoming requests with timestamp and path
-4. The system should work with a single command:
-
-   ```bash
-   docker-compose up --build
-   ```
-5. Bonus: Add a health check for both services and show logs of successful routing.
+- **Two backend services** (one in Go, one in Python/Flask), each running in its own container.
+- An **Nginx reverse proxy** (also containerized) that routes requests based on URL path prefix.
+- All services accessible via a single port (`localhost:8080`).
 
 ---
 
-### 📁 Suggested Project Structure
+## 📁 Project Structure
 
 ```
 .
 ├── docker-compose.yml
 ├── nginx
-│   ├── default.conf
-│   └── Dockerfile
+│   └── default.conf
 ├── service_1
-│   ├── app.py
+│   ├── main.go
 │   └── Dockerfile
 ├── service_2
 │   ├── app.py
@@ -51,51 +28,134 @@ You are expected to set up a simple system where:
 
 ---
 
-### 📦 Tech Constraints
+## ⚙️ Setup Instructions
 
-* Nginx must run in a Docker container, not on host
-* Use bridge networking (no host networking)
+1. **Clone the Repository**
+   ```bash
+   git clone 
+   cd 
+   ```
+
+2. **Build and Start All Services**
+   ```bash
+   docker-compose up --build
+   ```
+
+3. **Test the Endpoints**
+   Open a new terminal and run:
+   ```bash
+   curl http://localhost:8080/service1/ping
+   curl http://localhost:8080/service2/ping
+   curl http://localhost:8080/service1/hello
+   curl http://localhost:8080/service2/hello
+   ```
+
+   **Expected Responses:**
+   - `/service1/ping` → `{"status":"ok","service":"1"}`
+   - `/service2/ping` → `{"status":"ok","service":"2"}`
+   - `/service1/hello` → `{"message":"Hello from Service 1"}`
+   - `/service2/hello` → `{"message":"Hello from Service 2"}`
+
+4. **Stop All Services**
+   ```bash
+   docker-compose down
+   ```
 
 ---
 
-### 📝 Submission Instructions
+## 🌐 Routing Explained
 
-1. Upload your project to GitHub or GitLab.
-2. Include a short `README.md` with:
-
-   * Setup instructions
-   * How routing works
-   * Any bonus you implemented
-3. Deadline: **1 week**
-4. Bonus points for:
-
-   * Logging clarity
-   * Clean and modular Docker setup
-   * Healthcheck or automated test script
+- **Nginx** listens on port `8080`.
+- Requests to `/service1/*` are routed to the Go backend (`service_1`).
+- Requests to `/service2/*` are routed to the Flask backend (`service_2`).
+- This routing is defined in [`nginx/default.conf`](nginx/default.conf).
 
 ---
 
-### ❓FAQs
+## 🩺 Health Checks
 
-**Q: Is this a full-time role?**
-Yes. You would need to be in office in Bangalore.
+- Both backend services have health checks defined in `docker-compose.yml` using their `/ping` endpoints.
+- You can verify health status with:
+  ```bash
+  docker ps
+  ```
+  Look for `healthy` in the `STATUS` column.
 
-**Q: Is there a stipend?**
-Yes. 20k INR per month
+---
 
-**Q: How many positions are open?**
-Two positions are open.
+## 📜 Logging
 
-**Q: I am still in college. Can I apply?**
-Unfortunately, we are looking for post-college candidates.
+- Nginx logs each incoming request with timestamp and path.
+- View logs with:
+  ```bash
+  docker-compose logs nginx
+  ```
 
-**Q: Can I reach out for doubts?**
-No — due to the volume of submissions. Please use your creativity and assumptions where needed.
+---
 
-**Q: Can I use ChatGPT or Copilot?**
-Yes, feel free to use AI tools — we care about your implementation and understanding.
+## 🏗️ Tech Stack
 
-**Q: This feels like a lot for an intern assignment.**
-We agree it’s non-trivial — we’ve received many applications, so this helps us filter based on quality.
+- **Go** (service_1)
+- **Python/Flask** (service_2)
+- **Nginx** (reverse proxy)
+- **Docker & Docker Compose**
 
+---
 
+## 🏅 Bonus Features
+
+- Health checks for both backend services.
+- Clean, modular Docker setup.
+- Easy, single-command startup.
+
+---
+
+## 📦 How Routing Works
+
+| Path Prefix    | Routed To      | Example Response                        |
+|----------------|---------------|-----------------------------------------|
+| `/service1/*`  | Go service    | `{"status":"ok","service":"1"}`         |
+| `/service2/*`  | Flask service | `{"status":"ok","service":"2"}`         |
+
+---
+
+## 📝 Notes
+
+- Nginx runs **inside a Docker container** (not on host).
+- Uses Docker’s **bridge networking** (default in Compose).
+- All services are accessible via **localhost:8080**.
+
+---
+
+## 💡 Tips
+
+- To see logs for a specific service:
+  ```bash
+  docker-compose logs service_1
+  docker-compose logs service_2
+  ```
+- To follow logs live:
+  ```bash
+  docker-compose logs -f nginx
+  ```
+
+---
+
+## 📚 References
+
+- [Docker Compose Documentation](https://docs.docker.com/compose/)
+- [Nginx Documentation](https://nginx.org/en/docs/)
+
+---
+
+> **Ready to go!**  
+> Just run `docker-compose up --build` and access all services through Nginx on port 8080.
+
+---
+
+**Replace `` and `` with your actual repository details.**  
+This README covers all your assignment requirements and is ready for submission or sharing!
+
+[1] https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/55408003/ac073a19-0ca9-4772-9477-d2ce14f774ad/main.go
+[2] https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/55408003/fc45a278-abcf-4a2f-b968-d8f6d9546b14/app.py
+[3] https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/55408003/24194d04-ebea-44f1-9ca4-c5f5b73262f2/pyproject.toml
