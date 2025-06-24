@@ -153,9 +153,4 @@ This project demonstrates a simple microservices setup using Docker Compose. It 
 
 ---
 
-**Replace `` and `` with your actual repository details.**  
 This README covers all your assignment requirements and is ready for submission or sharing!
-
-[1] https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/55408003/ac073a19-0ca9-4772-9477-d2ce14f774ad/main.go
-[2] https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/55408003/fc45a278-abcf-4a2f-b968-d8f6d9546b14/app.py
-[3] https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/55408003/24194d04-ebea-44f1-9ca4-c5f5b73262f2/pyproject.toml
